@@ -1,8 +1,12 @@
+import Header from "./components/Header";
+import Todos from "./components/Todos";
+
 function App() {
   return (
-    <>
-      <h1 className="text-3xl">App</h1>
-    </>
+    <div className="container mx-auto">
+      <Header />
+      <Todos />
+    </div>
   );
 }
 
