@@ -11,16 +11,15 @@ const AddTodo = ({ onAddTodo }) => {
   const handleAddTodo = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await axios.post("http://localhost:8080/todo/", {
-        title: newTodo,
+    await axios
+      .post("http://localhost:8080/todo/", { title: newTodo })
+      .then((response) => {
+        onAddTodo(response.data);
+        setNewTodo("");
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-      onAddTodo(response.data); // Notify the parent about the new todo
-      setNewTodo(""); // Clear the input after adding a new todo
-    } catch (error) {
-      console.error("Error adding todo:", error.message);
-    }
   };
 
   return (

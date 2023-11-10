@@ -9,17 +9,18 @@ const Todos = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/todo/");
-        setTodos(response.data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setIsLoading(false);
-      }
+    const fetchTodos = () => {
+      axios
+        .get("http://localhost:8080/todo/")
+        .then((response) => {
+          setTodos(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setError(error.message);
+          setIsLoading(false);
+        });
     };
-
     fetchTodos();
   }, []);
 
@@ -39,8 +40,8 @@ const Todos = () => {
     <div className="flex w-full justify-center items-center flex-col mt-10">
       <h1 className="text-6xl">Todos:</h1>
       <AddTodo onAddTodo={handleAddTodo} />
-      <ul>
-        {todos.todos.map((todo) => (
+      <ul className="mt-5">
+        {todos.map((todo) => (
           <Todo key={todo.id} todo={todo} />
         ))}
       </ul>
