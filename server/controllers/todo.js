@@ -10,11 +10,23 @@ exports.getTodos = async (req, res, next) => {
     });
 };
 
+exports.getTodo = async (req, res, next) => {
+  const { id } = req.params;
+  Todo.findById(id)
+    .then((todo) => {
+      res.status(200).json(todo);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 exports.createTodo = async (req, res, next) => {
   const newTodo = new Todo({
     title: req.body.title,
   });
-    newTodo.save()
+  newTodo
+    .save()
     .then((result) => {
       res.status(201).json(newTodo);
     })

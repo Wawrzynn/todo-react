@@ -28,6 +28,10 @@ const Todos = () => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
   };
 
+  const handleDeleteTodo = (todo) => {
+    setTodos((prevTodos) => prevTodos.filter((t) => t._id !== todo._id));
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -42,7 +46,7 @@ const Todos = () => {
       <AddTodo onAddTodo={handleAddTodo} />
       <ul className="mt-5">
         {todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
+          <Todo key={todo.id} todo={todo} onDeleteTodo={handleDeleteTodo} />
         ))}
       </ul>
     </div>
