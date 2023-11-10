@@ -52,8 +52,9 @@ exports.updateTodo = async (req, res, next) => {
 };
 
 exports.toggleTodo = async (req, res, next) => {
-  const todoRef = await Todo.findById(req.params.id);
-  Todo.findOneAndUpdate({ _id: req.params.id }, { done: !todoRef.done })
+  const todo = await Todo.findById(req.params.id);
+  todo.completed = !req.body.completed;
+  todo
     .save()
     .then((todo) => {
       res.status(200).json(todo);

@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import Todo from "./Todo";
 import axios from "axios";
 import AddTodo from "./AddTodo";
+import Button from "./Button";
 
 const Todos = () => {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     const fetchTodos = () => {
@@ -23,6 +25,16 @@ const Todos = () => {
     };
     fetchTodos();
   }, []);
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "completed") {
+      return todo.completed;
+    } else if (filter === "active") {
+      return !todo.completed;
+    } else {
+      return todo;
+    }
+  });
 
   const handleAddTodo = (newTodo) => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
@@ -54,10 +66,20 @@ const Todos = () => {
   return (
     <div className="flex w-full justify-center items-center flex-col mt-10">
       <AddTodo onAddTodo={handleAddTodo} />
+      <div className="flex flex-row justify-center items-center w-full">
+        <Button onClick={() => setFilter("all")}>All</Button>
+        <Button onClick={() => setFilter("completed")}>Completed</Button>
+        <Button onClick={() => setFilter("active")}>Active</Button>
+      </div>
       <h1 className="text-6xl mt-10">Todos:</h1>
       <ul className="mt-5">
-        {todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} onDeleteTodo={handleDeleteTodo} onEditTodo={handleEdit}/>
+        {filteredTodos.map((todo) => (
+          <Todo
+            key={todo.id}
+            todo={todo}
+            onDeleteTodo={handleDeleteTodo}
+            onEditTodo={handleEdit}
+          />
         ))}
       </ul>
     </div>

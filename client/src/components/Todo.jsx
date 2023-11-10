@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTodo, setEditedTodo] = useState(todo.title);
+  const [completed, setCompleted] = useState(todo.completed);
   const inputRef = useRef(null);
 
   useEffect(() => {
@@ -31,8 +32,8 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
           title: editedTodo,
         })
         .then((response) => {
-            setIsEditing(false);
-            onEditTodo();
+          setIsEditing(false);
+          onEditTodo();
         })
         .catch((error) => {
           console.log(error);
@@ -40,6 +41,21 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
     } else {
       setIsEditing(true);
     }
+  };
+
+  const toggleCompletion = async () => {
+    setCompleted(!completed);
+    await axios
+      .put(`http://localhost:8080/todo/todo/${todo._id}/toggle`, {
+        completed: completed,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      onEditTodo();
   };
 
   const handleKeyPress = (e) => {
@@ -54,6 +70,13 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
       key={todo.id}
       className="flex flex-row items-center px-5 py-3 rounded-md shadow-md"
     >
+      <input
+        type="checkbox"
+        className="mr-2"
+        value={completed}
+        checked={completed}
+        onChange={toggleCompletion}
+      />
       {isEditing ? (
         <input
           type="text"
