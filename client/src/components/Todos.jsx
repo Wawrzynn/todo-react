@@ -32,6 +32,17 @@ const Todos = () => {
     setTodos((prevTodos) => prevTodos.filter((t) => t._id !== todo._id));
   };
 
+  const handleEdit = () => {
+    axios
+      .get("http://localhost:8080/todo/")
+      .then((response) => {
+        setTodos(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -42,11 +53,11 @@ const Todos = () => {
 
   return (
     <div className="flex w-full justify-center items-center flex-col mt-10">
-      <h1 className="text-6xl">Todos:</h1>
       <AddTodo onAddTodo={handleAddTodo} />
+      <h1 className="text-6xl mt-10">Todos:</h1>
       <ul className="mt-5">
         {todos.map((todo) => (
-          <Todo key={todo.id} todo={todo} onDeleteTodo={handleDeleteTodo} />
+          <Todo key={todo.id} todo={todo} onDeleteTodo={handleDeleteTodo} onEditTodo={handleEdit}/>
         ))}
       </ul>
     </div>
