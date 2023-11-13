@@ -1,4 +1,5 @@
 const Todo = require("../models/Todo");
+const { v4: uuidv4 } = require("uuid");
 
 exports.getTodos = async (req, res, next) => {
   Todo.find()
@@ -23,6 +24,7 @@ exports.getTodo = async (req, res, next) => {
 
 exports.createTodo = async (req, res, next) => {
   const newTodo = new Todo({
+    id: uuidv4(),
     title: req.body.title,
   });
   newTodo
@@ -53,7 +55,7 @@ exports.updateTodo = async (req, res, next) => {
 
 exports.toggleTodo = async (req, res, next) => {
   const todo = await Todo.findById(req.params.id);
-  todo.completed = !req.body.completed;
+  todo.completed = req.body.completed;
   todo
     .save()
     .then((todo) => {

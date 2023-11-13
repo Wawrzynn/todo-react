@@ -1,6 +1,7 @@
 import { AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
+
 const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTodo, setEditedTodo] = useState(todo.title);
@@ -25,15 +26,18 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
         console.log(error);
       });
   };
+
   const handleEdit = () => {
+    setEditedTodo(todo.title);
     if (isEditing) {
       axios
         .put(`http://localhost:8080/todo/todo/${todo._id}`, {
           title: editedTodo,
         })
         .then((response) => {
-          setIsEditing(false);
+          console.log(response);
           onEditTodo();
+          setIsEditing(false);
         })
         .catch((error) => {
           console.log(error);
@@ -44,10 +48,11 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
   };
 
   const toggleCompletion = async () => {
-    setCompleted(!completed);
+    const updatedCompleted = !completed;
+    setCompleted(updatedCompleted);
     await axios
       .put(`http://localhost:8080/todo/todo/${todo._id}/toggle`, {
-        completed: completed,
+        completed: updatedCompleted,
       })
       .then((response) => {
         console.log(response);
@@ -55,12 +60,18 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
       .catch((error) => {
         console.log(error);
       });
-      onEditTodo();
+    onEditTodo();
   };
 
   const handleKeyPress = (e) => {
     // If the key pressed is "Enter," trigger the save operation
     if (e.key === "Enter") {
+      handleEdit();
+    }
+  };
+
+  const handleBlur = () => {
+    if (isEditing) {
       handleEdit();
     }
   };
@@ -73,8 +84,8 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
       <input
         type="checkbox"
         className="mr-2"
-        value={completed}
-        checked={completed}
+        value={todo.completed}
+        checked={todo.completed}
         onChange={toggleCompletion}
       />
       {isEditing ? (
@@ -85,6 +96,7 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
           onChange={(e) => setEditedTodo(e.target.value)}
           onKeyDown={handleKeyPress}
           onClick={() => setIsEditing(true)}
+          onBlur={handleBlur}
         />
       ) : (
         <p className="text-xl" onClick={() => setIsEditing(true)}>

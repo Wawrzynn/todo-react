@@ -24,17 +24,7 @@ const Todos = () => {
         });
     };
     fetchTodos();
-  }, []);
-
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === "completed") {
-      return todo.completed;
-    } else if (filter === "active") {
-      return !todo.completed;
-    } else {
-      return todo;
-    }
-  });
+  }, [todos]);
 
   const handleAddTodo = (newTodo) => {
     setTodos((prevTodos) => [...prevTodos, newTodo]);
@@ -62,6 +52,21 @@ const Todos = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "all") {
+      // console.log(todo.id);
+      return todo;
+    }
+    if (filter === "completed") {
+      // console.log(todos.filter((todo) => todo.completed === true));
+      return todo.completed === true;
+    }
+    if (filter === "active") {
+      // console.log(todos.filter((todo) => todo.completed === false));
+      return todo.completed === false;
+    }
+  });
 
   return (
     <div className="flex w-full justify-center items-center flex-col mt-10">
