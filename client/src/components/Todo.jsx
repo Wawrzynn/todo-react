@@ -8,6 +8,9 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
   const [completed, setCompleted] = useState(todo.completed);
   const inputRef = useRef(null);
 
+  const localhostUrl = import.meta.env.VITE_LOCALHOST_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
@@ -17,7 +20,7 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
   const handleDelete = async (todo) => {
     console.log(todo._id);
     await axios
-      .delete(`http://localhost:8080/todo/todo/${todo._id}`)
+      .delete(`${localhostUrl}/todo/todo/${todo._id}`)
       .then((response) => {
         onDeleteTodo(todo);
         console.log(response);
@@ -31,7 +34,7 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
     setEditedTodo(todo.title);
     if (isEditing) {
       axios
-        .put(`http://localhost:8080/todo/todo/${todo._id}`, {
+        .put(`${apiUrl}/todo/todo/${todo._id}`, {
           title: editedTodo,
         })
         .then((response) => {
@@ -51,7 +54,7 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
     const updatedCompleted = !completed;
     setCompleted(updatedCompleted);
     await axios
-      .put(`http://localhost:8080/todo/todo/${todo._id}/toggle`, {
+      .put(`${apiUrl}/todo/todo/${todo._id}/toggle`, {
         completed: updatedCompleted,
       })
       .then((response) => {
@@ -110,7 +113,7 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
           <AiOutlineEdit />
         </button>
         <button className="ml-2" onClick={() => handleDelete(todo)}>
-          <AiOutlineDelete className="text-red-600"/>
+          <AiOutlineDelete className="text-red-600" />
         </button>
       </div>
     </li>

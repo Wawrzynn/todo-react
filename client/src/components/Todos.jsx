@@ -10,10 +10,13 @@ const Todos = () => {
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState("all");
 
+  const localhostUrl = import.meta.env.VITE_LOCALHOST_URL;
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const fetchTodos = () => {
       axios
-        .get("http://localhost:8080/todo/")
+        .get(`${apiUrl}/todo/`)
         .then((response) => {
           setTodos(response.data);
           setIsLoading(false);
@@ -36,7 +39,7 @@ const Todos = () => {
 
   const handleEdit = () => {
     axios
-      .get("http://localhost:8080/todo/")
+      .get(`${apiUrl}/todo/`)
       .then((response) => {
         setTodos(response.data);
       })
