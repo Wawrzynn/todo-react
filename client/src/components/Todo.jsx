@@ -79,36 +79,40 @@ const Todo = ({ todo, onDeleteTodo, onEditTodo }) => {
   return (
     <li
       key={todo.id}
-      className="flex flex-row items-center px-5 py-3 rounded-md shadow-md"
+      className="flex flex-row w-96 mb-5 items-center justify-between px-5 py-3 rounded-md shadow-md bg-slate-50"
     >
-      <input
-        type="checkbox"
-        className="mr-2"
-        value={todo.completed}
-        checked={todo.completed}
-        onChange={toggleCompletion}
-      />
-      {isEditing ? (
+      <div className="flex flex-row justify-start">
         <input
-          type="text"
-          ref={inputRef}
-          value={editedTodo}
-          onChange={(e) => setEditedTodo(e.target.value)}
-          onKeyDown={handleKeyPress}
-          onClick={() => setIsEditing(true)}
-          onBlur={handleBlur}
+          type="checkbox"
+          className="mr-2"
+          value={completed}
+          checked={completed}
+          onChange={toggleCompletion}
         />
-      ) : (
-        <p className="text-xl" onClick={() => setIsEditing(true)}>
-          {todo.title}
-        </p>
-      )}
-      <button className="ml-2" onClick={handleEdit}>
-        <AiOutlineEdit />
-      </button>
-      <button className="ml-2" onClick={() => handleDelete(todo)}>
-        <AiOutlineDelete />
-      </button>
+        {isEditing ? (
+          <input
+            type="text"
+            ref={inputRef}
+            value={editedTodo}
+            onChange={(e) => setEditedTodo(e.target.value)}
+            onKeyDown={handleKeyPress}
+            onClick={() => setIsEditing(true)}
+            onBlur={handleBlur}
+          />
+        ) : (
+          <p className="text-xl" onClick={() => setIsEditing(true)}>
+            {todo.title}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-row justify-end">
+        <button className="ml-2" onClick={handleEdit}>
+          <AiOutlineEdit />
+        </button>
+        <button className="ml-2" onClick={() => handleDelete(todo)}>
+          <AiOutlineDelete className="text-red-600"/>
+        </button>
+      </div>
     </li>
   );
 };

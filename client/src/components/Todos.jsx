@@ -55,15 +55,15 @@ const Todos = () => {
 
   const filteredTodos = todos.filter((todo) => {
     if (filter === "all") {
-      // console.log(todo.id);
+      
       return todo;
     }
     if (filter === "completed") {
-      // console.log(todos.filter((todo) => todo.completed === true));
+      
       return todo.completed === true;
     }
     if (filter === "active") {
-      // console.log(todos.filter((todo) => todo.completed === false));
+      
       return todo.completed === false;
     }
   });
@@ -71,13 +71,13 @@ const Todos = () => {
   return (
     <div className="flex w-full justify-center items-center flex-col mt-10">
       <AddTodo onAddTodo={handleAddTodo} />
-      <div className="flex flex-row justify-center items-center w-full">
-        <Button onClick={() => setFilter("all")}>All</Button>
+      <div className="flex flex-row justify-around w-96 items-center px-5 py-3 rounded-md shadow-md">
+        <Button onClick={() => {setFilter("all");}}>All</Button>
         <Button onClick={() => setFilter("completed")}>Completed</Button>
         <Button onClick={() => setFilter("active")}>Active</Button>
       </div>
-      <h1 className="text-6xl mt-10">Todos:</h1>
-      <ul className="mt-5">
+      <h1 className="text-6xl mt-10 mb-10">Todos:</h1>
+      <ul className="flex mb-10 justify-center items-center flex-col px-10 py-5 rounded-md shadow-md bg-cyan-300">
         {filteredTodos.map((todo) => (
           <Todo
             key={todo.id}

@@ -23,15 +23,17 @@ const AddTodo = ({ onAddTodo }) => {
   };
 
   return (
-    <form onSubmit={handleAddTodo}>
-      <input
-        type="text"
-        value={newTodo}
-        onChange={handleInputChange}
-        placeholder="Add a new todo"
-      />
-      <button type="submit">Add Todo</button>
-    </form>
+    <div className="flex justify-center items-center px-5 py-3 mb-10 rounded-md shadow-md">
+      <form onSubmit={handleAddTodo}>
+        <input
+          type="text"
+          value={newTodo}
+          onChange={handleInputChange}
+          placeholder="Add a new todo"
+        />
+        <button type="submit">Add Todo</button>
+      </form>
+    </div>
   );
 };
 
