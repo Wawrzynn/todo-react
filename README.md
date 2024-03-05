@@ -1,4 +1,4 @@
-# Name of the project &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)]()
+# Name of the project &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/Wawrzynn/todo-react/blob/main/LICENSE)
 
 A todo app for managing tasks where user can create and mark finished and unfinished tasks. Project has its frontend written in React.js and backend using Express.js.
 
